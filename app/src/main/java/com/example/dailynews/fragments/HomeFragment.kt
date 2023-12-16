@@ -1,18 +1,27 @@
 package com.example.dailynews.fragments
 
 import android.os.Bundle
+import android.provider.SyncStateContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.dailynews.R
 import com.example.dailynews.adapter.NewsAdapter
 import com.example.dailynews.databinding.FragmentHomeBinding
 import com.example.dailynews.news.Article
 import com.example.dailynews.news.News
 import com.example.dailynews.news.NewsService
+import com.example.dailynews.newsrepository.NewsRepository
+import com.example.dailynews.viewmodel.NewsApplication
+import com.example.dailynews.viewmodel.NewsViewModel
+import com.example.dailynews.viewmodel.NewsViewModelFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -21,6 +30,13 @@ import retrofit2.Response
 class HomeFragment : Fragment() {
     private lateinit var binding:FragmentHomeBinding
     private lateinit var adapter: NewsAdapter
+    private val viewModel: NewsViewModel by activityViewModels {
+        NewsViewModelFactory(
+            (activity?.application as NewsApplication).repo
+        )
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -40,32 +56,24 @@ class HomeFragment : Fragment() {
         adapter = NewsAdapter()
         binding.recyclerView.adapter = adapter
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
         getNews()
 
+        binding.all.setOnClickListener{
+            getNews()
+        }
+        binding.entertainment.setOnClickListener{
+            viewModel.entertainmentNews.observe(viewLifecycleOwner, Observer {
+                adapter.submitList(it.articles)
+            })
+
+        }
 
     }
 
     private fun getNews() {
-        val news = NewsService.newsInstance.getHeadLines("us")
-        news.enqueue(object :Callback<News>{
-
-            override fun onResponse(call: Call<News>, response: Response<News>) {
-                val newsBody = response.body()
-                if(news!=null){
-                    if (newsBody != null) {
-                        adapter.submitList(newsBody.articles)
-                    }
-                }
-            }
-
-
-            override fun onFailure(call: Call<News>, t: Throwable) {
-                Log.e("Error!!", "Unsuccessful response: ${t.message}")
-            }
-
+        viewModel.allNews.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it.articles)
         })
     }
-
 
 }
