@@ -58,14 +58,56 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         getNews()
 
+
+        //All News
         binding.all.setOnClickListener{
             getNews()
         }
+
+
+        //Entertainment
         binding.entertainment.setOnClickListener{
             viewModel.entertainmentNews.observe(viewLifecycleOwner, Observer {
                 adapter.submitList(it.articles)
             })
 
+        }
+
+
+
+        //Sport
+        binding.sport.setOnClickListener{
+            viewModel.sportNews.observe(viewLifecycleOwner, Observer {
+                adapter.submitList(it.articles)
+            })
+        }
+
+        //Health
+        binding.health.setOnClickListener{
+            viewModel.healthNews.observe(viewLifecycleOwner, Observer {
+                adapter.submitList(it.articles)
+            })
+        }
+
+        //Business
+        binding.business.setOnClickListener{
+            viewModel.businessNews.observe(viewLifecycleOwner, Observer {
+                adapter.submitList(it.articles)
+            })
+        }
+
+        //Technology
+        binding.tech.setOnClickListener{
+            viewModel.techNews.observe(viewLifecycleOwner, Observer {
+                adapter.submitList(it.articles)
+            })
+        }
+
+        //Science
+        binding.science.setOnClickListener{
+            viewModel.scienceNews.observe(viewLifecycleOwner, Observer {
+                adapter.submitList(it.articles)
+            })
         }
 
     }

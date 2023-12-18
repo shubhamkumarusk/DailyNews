@@ -23,10 +23,20 @@ class NewsViewModel(private val newsRepository: NewsRepository):ViewModel() {
     val country = "us"
     val allNews = MutableLiveData<News>()
     val entertainmentNews = MutableLiveData<News>()
+    val sportNews = MutableLiveData<News>()
+    val healthNews = MutableLiveData<News>()
+    val businessNews = MutableLiveData<News>()
+    val techNews = MutableLiveData<News>()
+    val scienceNews = MutableLiveData<News>()
 
     init {
         getAllNews()
         getEntertainmentNews()
+        getSportNews()
+        getHealthNews()
+        getBusinessNews()
+        getTechNews()
+        getScienceNews()
     }
     fun getAllNews() = viewModelScope.launch(Dispatchers.IO) {
         val response = newsRepository.getAllNews()
@@ -36,6 +46,32 @@ class NewsViewModel(private val newsRepository: NewsRepository):ViewModel() {
         val response = newsRepository.getEntertainmentNews(country,"entertainment")
         entertainmentNews.postValue(response.body())
     }
+    fun getSportNews() = viewModelScope.launch(Dispatchers.IO) {
+        val response = NewsService.newsInstance.getCatogeryNews(country,"sport")
+        sportNews.postValue(response.body())
+    }
+    fun getHealthNews() = viewModelScope.launch(Dispatchers.IO) {
+        val response = NewsService.newsInstance.getCatogeryNews(country,"health")
+        healthNews.postValue(response.body())
+
+    }
+    fun getBusinessNews() = viewModelScope.launch(Dispatchers.IO) {
+        val response = NewsService.newsInstance.getCatogeryNews(country,"business")
+        businessNews.postValue(response.body())
+
+    }
+    fun getTechNews() = viewModelScope.launch(Dispatchers.IO) {
+        val response = NewsService.newsInstance.getCatogeryNews(country,"technology")
+        techNews.postValue(response.body())
+
+    }
+    fun getScienceNews() = viewModelScope.launch(Dispatchers.IO) {
+        val response = NewsService.newsInstance.getCatogeryNews(country,"science")
+        scienceNews.postValue(response.body())
+
+    }
+
+
 
 
 

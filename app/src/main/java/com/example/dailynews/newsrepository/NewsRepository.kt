@@ -13,4 +13,7 @@ class NewsRepository {
 
     suspend fun getAllNews() = NewsService.newsInstance.getHeadLines()
     suspend fun getEntertainmentNews(country:String,category:String) = NewsService.newsInstance.getCatogeryNews(country,category)
+    suspend fun getSportNews(country: String,category: String) = NewsService.newsInstance.getCatogeryNews(country,category)
+    suspend fun getHealthNews(country: String,category: String) = NewsService.newsInstance.getCatogeryNews(country,category)
+
 }
