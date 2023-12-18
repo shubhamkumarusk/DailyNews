@@ -11,7 +11,7 @@ import com.example.dailynews.databinding.FragmentHomeBinding
 import com.example.dailynews.databinding.NewsListBinding
 import com.example.dailynews.news.Article
 
-class NewsAdapter:ListAdapter<Article,NewsAdapter.NewsViewHolder>(DiffCallBack){
+class NewsAdapter(private val OnNewsClikced:(Article)->Unit):ListAdapter<Article,NewsAdapter.NewsViewHolder>(DiffCallBack){
     companion object {
             private val DiffCallBack = object :DiffUtil.ItemCallback<Article>(){
 
@@ -55,6 +55,9 @@ class NewsAdapter:ListAdapter<Article,NewsAdapter.NewsViewHolder>(DiffCallBack){
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         val curr = getItem(position)
         holder.bind(curr)
+        holder.itemView.setOnClickListener{
+            OnNewsClikced(curr)
+        }
 
     }
 
