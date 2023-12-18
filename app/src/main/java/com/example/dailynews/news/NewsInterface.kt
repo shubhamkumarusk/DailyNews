@@ -17,7 +17,7 @@ interface NewsInterface {
     @GET("top-headlines?apiKey=$API_KEY")
     suspend fun getHeadLines(
         @Query("country")
-        country:String = "us"
+        country:String = "in"
     ):Response<News>
 
 

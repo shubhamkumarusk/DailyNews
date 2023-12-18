@@ -20,7 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class NewsViewModel(private val newsRepository: NewsRepository):ViewModel() {
-    val country = "us"
+    val country = "in"
     val allNews = MutableLiveData<News>()
     val entertainmentNews = MutableLiveData<News>()
     val sportNews = MutableLiveData<News>()
